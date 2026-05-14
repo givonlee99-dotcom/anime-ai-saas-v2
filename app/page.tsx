@@ -339,7 +339,7 @@ export default function Home() {
                   </div>
 
                   <p className="text-2xl font-bold">
-                    Upload Gambar
+                    Upload IMG
                   </p>
 
                   <p className="text-gray-500 mt-3">
