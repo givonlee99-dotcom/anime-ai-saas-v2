@@ -6,15 +6,8 @@ export default function Home() {
   const [preview, setPreview] = useState<string | null>(null);
   const [animeImage, setAnimeImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
 
   const [style, setStyle] = useState("Cyber");
-
-  // =========================
-  // LINKVERTISE
-  // =========================
-
-  const LINKVERTISE = "https://link-target.net/ISI-LINKVERTISE-KAMU";
 
   // =========================
   // STYLE LIST
@@ -185,7 +178,7 @@ export default function Home() {
         // COMPRESS IMAGE
         // =========================
 
-        const finalImage = canvas.toDataURL("image/jpeg", 0.7);
+        const finalImage = canvas.toDataURL("image/jpeg", 0.92);
 
         // =========================
         // SAVE RESULT
@@ -204,6 +197,28 @@ export default function Home() {
 
       setLoading(false);
     }
+  };
+
+  // =========================
+  // DIRECT DOWNLOAD
+  // =========================
+
+  const downloadImage = () => {
+    if (!animeImage) {
+      alert("Generate gambar dulu");
+      return;
+    }
+
+    const link = document.createElement("a");
+
+    link.href = animeImage;
+    link.download = `anime-${style}.jpg`;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
   };
 
   return (
@@ -415,7 +430,7 @@ export default function Home() {
             {/* DOWNLOAD BUTTON */}
             <div className="mt-6">
               <button
-                onClick={() => setShowPopup(true)}
+                onClick={downloadImage}
                 className="w-full py-6 rounded-[20px] bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-black text-3xl hover:scale-[1.02] transition-all"
               >
                 ⬇ Download Result
@@ -424,67 +439,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* POPUP */}
-      {showPopup && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center px-6">
-          <div className="w-full max-w-xl rounded-[35px] border border-cyan-400/20 bg-[#071015] p-8 text-center relative">
-            {/* CLOSE */}
-            <button
-              onClick={() => setShowPopup(false)}
-              className="absolute top-5 right-5 w-12 h-12 rounded-full bg-white/10 text-white text-2xl hover:bg-red-500 transition-all"
-            >
-              ✕
-            </button>
-
-            {/* ICON */}
-            <div className="text-7xl mb-5">⬇</div>
-
-            {/* TITLE */}
-            <h2 className="text-white text-5xl font-black mb-4">
-              Download Anime
-            </h2>
-
-            {/* DESC */}
-            <p className="text-gray-400 text-xl leading-relaxed">
-              Download hasil anime kamu melalui Linkvertise.
-            </p>
-
-            {/* BUTTON */}
-            <div className="mt-10">
-              <a
-                href={LINKVERTISE}
-                target="_blank"
-                className="block py-6 rounded-[20px] bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-black text-2xl hover:scale-[1.02] transition-all"
-              >
-                ⬇ Free Download
-              </a>
-            </div>
-
-            {/* HOW TO */}
-            <div className="mt-8 rounded-[25px] border border-cyan-400/20 bg-black/30 p-6 text-left">
-              <h3 className="text-cyan-300 text-2xl font-bold mb-4">
-                🚀 Cara Download
-              </h3>
-
-              <div className="space-y-3 text-gray-300 text-lg leading-relaxed">
-                <p>
-                  1. Klik tombol{" "}
-                  <span className="text-cyan-400 font-bold">Free Download</span>
-                </p>
-
-                <p>2. Kamu akan diarahkan ke halaman Linkvertise</p>
-
-                <p>3. Tunggu beberapa detik lalu klik Continue</p>
-
-                <p>4. Setelah selesai kamu akan kembali ke website</p>
-
-                <p>5. Download anime image akan otomatis dimulai</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* HIDE SCROLLBAR */}
       <style jsx global>{`
