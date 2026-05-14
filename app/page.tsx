@@ -4,7 +4,10 @@ import { useState } from "react";
 
 export default function Home() {
   const [preview, setPreview] = useState<string | null>(null);
+
+  // HASIL IMAGE CDN
   const [animeImage, setAnimeImage] = useState<string | null>(null);
+
   const [loading, setLoading] = useState(false);
 
   const [style, setStyle] = useState("Cyber");
@@ -197,14 +200,23 @@ export default function Home() {
         ctx.drawImage(img, 0, 0);
 
         // =========================
-        // FINAL IMAGE
+        // SIMPAN KE BLOB
         // =========================
 
-        const finalImage = canvas.toDataURL("image/jpeg", 1);
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            alert("Gagal generate");
+            setLoading(false);
+            return;
+          }
 
-        setAnimeImage(finalImage);
+          // URL sementara browser
+          const imageUrl = URL.createObjectURL(blob);
 
-        setLoading(false);
+          setAnimeImage(imageUrl);
+
+          setLoading(false);
+        }, "image/jpeg", 1);
       };
     } catch (err) {
       console.log(err);
@@ -219,37 +231,23 @@ export default function Home() {
   // DOWNLOAD FIX ANDROID
   // =========================
 
-  const downloadImage = async () => {
+  const downloadImage = () => {
     if (!animeImage) {
       alert("Generate gambar dulu");
       return;
     }
 
-    try {
-      const response = await fetch(animeImage);
+    const link = document.createElement("a");
 
-      const blob = await response.blob();
+    link.href = animeImage;
 
-      const blobUrl = window.URL.createObjectURL(blob);
+    link.download = `anime-${style}.jpg`;
 
-      const link = document.createElement("a");
+    document.body.appendChild(link);
 
-      link.href = blobUrl;
+    link.click();
 
-      link.download = `anime-${style}.jpg`;
-
-      document.body.appendChild(link);
-
-      link.click();
-
-      document.body.removeChild(link);
-
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (err) {
-      console.log(err);
-
-      alert("Download gagal");
-    }
+    document.body.removeChild(link);
   };
 
   return (
