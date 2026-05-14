@@ -278,23 +278,65 @@ export default function Home() {
         </div>
 
         {/* STYLES */}
-        <div className="flex gap-3 overflow-x-auto pb-3 mb-10 no-scrollbar">
+        <div className="relative mb-10">
 
-          {styles.map((item) => (
-            <button
-              key={item}
-              onClick={() => setStyle(item)}
-              className={`px-5 py-3 rounded-2xl whitespace-nowrap transition-all ${
-                style === item
-                  ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-bold"
-                  : "bg-white/10 text-white"
-              }`}
-            >
-              {item}
-            </button>
-          ))}
+  {/* BUTTON LEFT */}
+  <button
+    onClick={() => {
+      const container = document.getElementById("style-scroll");
 
-        </div>
+      if (container) {
+        container.scrollBy({
+          left: -300,
+          behavior: "smooth",
+        });
+      }
+    }}
+    className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-cyan-400 text-black font-black text-2xl shadow-lg"
+  >
+    ←
+  </button>
+
+  {/* SCROLL */}
+  <div
+    id="style-scroll"
+    className="flex gap-3 overflow-x-auto px-14 pb-3 no-scrollbar scroll-smooth"
+  >
+
+    {styles.map((item) => (
+      <button
+        key={item}
+        onClick={() => setStyle(item)}
+        className={`px-5 py-3 rounded-2xl whitespace-nowrap transition-all ${
+          style === item
+            ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-bold"
+            : "bg-white/10 text-white"
+        }`}
+      >
+        {item}
+      </button>
+    ))}
+
+  </div>
+
+  {/* BUTTON RIGHT */}
+  <button
+    onClick={() => {
+      const container = document.getElementById("style-scroll");
+
+      if (container) {
+        container.scrollBy({
+          left: 300,
+          behavior: "smooth",
+        });
+      }
+    }}
+    className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-cyan-400 text-black font-black text-2xl shadow-lg"
+  >
+    →
+  </button>
+
+</div>
 
         {/* CONTENT */}
         <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
